@@ -1,11 +1,13 @@
 # 🚀 Ejada Automation Framework
 
-A scalable **Playwright + TypeScript** automation framework for **UI and API testing** built using modern automation best practices.
+A scalable and maintainable **Playwright + TypeScript** automation framework for **UI and API testing**, designed using modern enterprise automation best practices.
 
 This framework includes:
 
 - ✅ UI Automation Testing
 - ✅ API Testing
+- ✅ Cross-Browser Testing (Chromium & Firefox)
+- ✅ Parallel Test Execution
 - ✅ Page Object Model (POM)
 - ✅ Data-Driven Testing
 - ✅ Visual Regression Testing
@@ -127,6 +129,23 @@ API_TOKEN=your_api_token_here
 
 ---
 
+# ⚡ Execution Configuration
+
+Framework supports:
+
+- Parallel execution
+- Cross-browser testing
+- Chromium browser
+- Firefox browser
+
+Configured using Playwright projects in:
+
+```bash
+playwright.config.ts
+```
+
+---
+
 # 🔐 Git Ignore
 
 Generated files should not be committed.
@@ -159,7 +178,7 @@ npm test
 ## Run UI tests only
 
 ```bash
-npx playwright test tests/UI
+npm run test:ui
 ```
 
 ---
@@ -167,7 +186,7 @@ npx playwright test tests/UI
 ## Run API tests only
 
 ```bash
-npx playwright test tests/API
+npm run test:api
 ```
 
 ---
@@ -206,7 +225,7 @@ Framework validates:
 - Cart flow
 - Inventory validation
 
-Uses **Page Object Model** for maintainability.
+Uses **Page Object Model (POM)** for maintainability and scalability.
 
 Example:
 
@@ -227,10 +246,13 @@ Framework supports Playwright API automation.
 Current coverage:
 
 - Books API testing
+- GET requests
+- POST requests with authentication token
+- PATCH requests
+- DELETE requests
 - Status code validation
 - Response body validation
 - Header verification
-- Token-based authentication
 
 Example:
 
@@ -289,7 +311,7 @@ Framework compares:
 - `visual_check.png`
 - `diff.png`
 
-If mismatched pixels are found, test fails.
+If mismatched pixels are found, the test fails.
 
 ---
 
@@ -316,7 +338,7 @@ playwright-report/index.html
 Generate results:
 
 ```bash
-npx playwright test
+npm test
 ```
 
 Serve Allure report:
@@ -328,13 +350,13 @@ npx allure serve allure-results
 Generate static report:
 
 ```bash
-npx allure generate allure-results --clean
+npm run allure:generate
 ```
 
-Open:
+Open Allure report:
 
 ```bash
-allure-report/index.html
+npm run allure:open
 ```
 
 ---
@@ -343,7 +365,7 @@ allure-report/index.html
 
 ## Page Object Model (POM)
 
-Separates:
+Framework separates:
 
 - Locators
 - Actions
@@ -377,6 +399,14 @@ Example:
 
 ---
 
+# 🏛 Architecture Overview
+
+```text
+Tests → Page Objects → Utilities → Reports
+```
+
+---
+
 # 🚀 CI/CD with GitHub Actions
 
 Workflow file:
@@ -390,13 +420,14 @@ Runs automatically on:
 - Push
 - Pull Request
 
-Example CI steps:
+CI pipeline steps:
 
 - Checkout code
 - Install dependencies
 - Install Playwright browsers
-- Run tests
-- Upload reports
+- Execute tests
+- Generate reports
+- Upload artifacts
 
 ---
 
@@ -433,7 +464,7 @@ Ensure:
 - Fixed viewport
 - Same baseline source
 
-Recommended in `playwright.config.ts`:
+Recommended configuration in `playwright.config.ts`:
 
 ```ts
 use: {
@@ -448,7 +479,7 @@ use: {
 
 # 👨‍💻 Author
 
-Built for learning, scalability, and enterprise-grade automation practices.
+Designed using scalable and maintainable enterprise automation practices.
 
 ---
 

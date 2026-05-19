@@ -16,14 +16,15 @@ export default defineConfig({
   use: {
     baseURL: process.env.BASE_URL,
 
-  headless: process.env.CI ? true : false,
-  viewport: {
-    width: 1440,
-    height: 900,
-  },
+    headless: process.env.CI ? true : false,
+
+    viewport: {
+      width: 1440,
+      height: 900,
+    },
 
     launchOptions: {
-      slowMo: 500,
+      slowMo: process.env.SLOWMO ? 500 : 0,
       args: ["--start-maximized"],
     },
 
@@ -31,7 +32,7 @@ export default defineConfig({
 
     video: "retain-on-failure",
 
-    trace: "on",
+    trace: "retain-on-failure",
   },
 
   projects: [
@@ -39,6 +40,13 @@ export default defineConfig({
       name: "chromium",
       use: {
         browserName: "chromium",
+      },
+    },
+
+    {
+      name: "firefox",
+      use: {
+        browserName: "firefox",
       },
     },
   ],
