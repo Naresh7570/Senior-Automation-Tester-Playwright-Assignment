@@ -1,0 +1,26 @@
+{
+  "name": "ejada-automation-framework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:update": "npx playwright test --update-snapshots",
+    "report": "npx playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.9.0",
+    "@types/pngjs": "^6.0.5",
+    "allure-playwright": "^3.8.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "pixelmatch": "^7.2.0",
+    "pngjs": "^7.0.0"
+  }
+}
