@@ -124,7 +124,11 @@ ERROR_USER=error_user
 VISUAL_USER=visual_user
 
 PASSWORD=secret_sauce
-API_TOKEN=your_api_token_here
+```
+Copy `.env.example` and create your own `.env` file:
+
+```bash
+cp .env.example .env
 ```
 
 ---
