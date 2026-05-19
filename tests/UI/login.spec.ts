@@ -1,114 +1,288 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../../pages/LoginPage';
-import { loginScenarios, testData } from '../../utils/testData';
-import { compareImages } from '../../utils/imgCompare'
-import { CartPage } from '../../pages/CartPage';
-import { CheckoutPage } from '../../pages/CheckoutPage';
+// import { test, expect } from "@playwright/test";
+// import { LoginPage } from "../../pages/LoginPage";
+// import { loginScenarios, testData } from "../../utils/testData";
+// import { compareImages } from "../../utils/imgCompare";
+// import { CartPage } from "../../pages/CartPage";
+// import { CheckoutPage } from "../../pages/CheckoutPage";
+// import { InventoryPage } from "../../pages/InventoryPage";
 
+// test.describe("Login Scenarios - SauceDemo Users", (),testInfo => {
+//   // Reusable checkout flow
+//   async function performCheckoutFlow(
+//     inventoryPage: InventoryPage,
+//     cartPage: CartPage,
+//     checkoutPage: CheckoutPage,
+//   ) {
+//     await inventoryPage.addToCart(testData.productName);
 
-test.describe('Login Scenarios - SauceDemo Users', () => {
+//     await inventoryPage.openCart();
+
+//     await cartPage.verifyProduct(testData.productName);
+
+//     await cartPage.clickCheckout();
+
+//     await checkoutPage.enterUserDetails(
+//       process.env.FIRST_NAME!,
+//       process.env.LAST_NAME!,
+//       process.env.POSTAL_CODE!,
+//     );
+//   }
+
+//   // Complete order flow
+//   async function completeOrderFlow(checkoutPage: CheckoutPage) {
+//     await checkoutPage.verifyOverviewPage();
+
+//     await checkoutPage.verifyPaymentInfo();
+
+//     await checkoutPage.verifyShippingInfo();
+
+//     await checkoutPage.verifyTotal();
+
+//     await checkoutPage.clickFinish();
+
+//     await checkoutPage.verifyThankYou();
+
+//     await checkoutPage.clickBackHome();
+//   }
+
+//   for (const scenario of loginScenarios) {
+//     test(`${scenario.name}`, async ({ page }) => {
+//       const loginPage = new LoginPage(page);
+//       const inventoryPage = new InventoryPage(page);
+//       const cartPage = new CartPage(page);
+//       const checkoutPage = new CheckoutPage(page);
+
+//       // Navigate
+//       await loginPage.goto();
+
+//       // Login
+//       await loginPage.login(scenario.username, scenario.password);
+
+//       // Slow user handling
+//       if (scenario.behavior === "slow") {
+//         await page.waitForLoadState("networkidle");
+
+//         await expect(page.locator('[data-test="title"]')).toHaveText(
+//           "Products",
+//         );
+//       }
+
+//       // Validation logic
+//       switch (scenario.expected) {
+//         case "success":
+//           await loginPage.verifyLoginSuccess();
+//           break;
+
+//         case "locked":
+//           await loginPage.verifyErrorContains(
+//             "Sorry, this user has been locked out.",
+//           );
+//           break;
+
+//         case "failure":
+//           await loginPage.verifyProblemUserImages();
+
+//           await performCheckoutFlow(inventoryPage, cartPage, checkoutPage);
+
+//           break;
+
+//         case "error":
+//           await performCheckoutFlow(inventoryPage, cartPage, checkoutPage);
+
+//           await completeOrderFlow(checkoutPage);
+
+//           break;
+
+//         default:
+//           throw new Error(`Unknown expected type: ${scenario.expected}`);
+//       }
+
+//       // Standard User -> capture baseline
+//       if (scenario.name === "Standard User") {
+//         await page.waitForLoadState("networkidle");
+
+//         await page.screenshot({
+//           path: "tests/UI/baseline/baseline.png",
+//           fullPage: true,
+//         });
+//       }
+
+//       // Visual User -> compare
+//       if (scenario.name === "Visual User") {
+//         await page.waitForLoadState("networkidle");
+
+//         await page.screenshot({
+//           path: "tests/UI/ACTUAL/visual_check.png",
+//           fullPage: true,
+//         });
+
+//         const mismatchedPixels = compareImages(
+//           "tests/UI/baseline/baseline.png",
+//           "tests/UI/ACTUAL/visual_check.png",
+//           "tests/UI/ACTUAL/diff.png",
+//         );
+
+//         if (mismatchedPixels > 0) {
+//   await testInfo.attach('Visual Diff', {
+//     path: 'tests/UI/ACTUAL/diff.png',
+//     contentType: 'image/png',
+//   });
+
+//   throw new Error(
+//     `Visual User UI mismatch detected. Different pixels found: ${mismatchedPixels}`
+//   );
+// }
+//         }
+//       }
+//     });
+//   }
+// });
+import { test, expect } from "@playwright/test";
+import { LoginPage } from "../../pages/LoginPage";
+import { loginScenarios, testData } from "../../utils/testData";
+import { compareImages } from "../../utils/imgCompare";
+import { CartPage } from "../../pages/CartPage";
+import { CheckoutPage } from "../../pages/CheckoutPage";
+import { InventoryPage } from "../../pages/InventoryPage";
+
+test.describe("Login Scenarios - SauceDemo Users", () => {
+  // Reusable checkout flow
+  async function performCheckoutFlow(
+    inventoryPage: InventoryPage,
+    cartPage: CartPage,
+    checkoutPage: CheckoutPage,
+  ) {
+    await inventoryPage.addToCart(testData.productName);
+
+    await inventoryPage.openCart();
+
+    await cartPage.verifyProduct(testData.productName);
+
+    await cartPage.clickCheckout();
+
+    await checkoutPage.enterUserDetails(
+      process.env.FIRST_NAME!,
+      process.env.LAST_NAME!,
+      process.env.POSTAL_CODE!,
+    );
+  }
+
+  // Complete order flow
+  async function completeOrderFlow(checkoutPage: CheckoutPage) {
+    await checkoutPage.verifyOverviewPage();
+
+    await checkoutPage.verifyPaymentInfo();
+
+    await checkoutPage.verifyShippingInfo();
+
+    await checkoutPage.verifyTotal();
+
+    await checkoutPage.clickFinish();
+
+    await checkoutPage.verifyThankYou();
+
+    await checkoutPage.clickBackHome();
+  }
 
   for (const scenario of loginScenarios) {
-
-    test(`${scenario.name}`, async ({ page }) => {
-
+    test(`${scenario.name}`, async ({ page }, testInfo) => {
       const loginPage = new LoginPage(page);
+      const inventoryPage = new InventoryPage(page);
       const cartPage = new CartPage(page);
       const checkoutPage = new CheckoutPage(page);
 
-      // 1️⃣ Navigate
+      // Navigate
       await loginPage.goto();
 
-      // 2️⃣ Perform login
-      await loginPage.login(
-        scenario.username,
-        scenario.password
-      );
+      // Login
+      await loginPage.login(scenario.username, scenario.password);
 
-      // 3️⃣ Optional behavior handling
-    if (scenario.behavior === 'slow') {
+      // Slow user handling
+      if (scenario.behavior === "slow") {
+        await page.waitForLoadState("networkidle");
 
-  await expect(
-    page.locator('[data-test="title"]')
-  ).toHaveText('Products');
-}
+        await expect(page.locator('[data-test="title"]')).toHaveText(
+          "Products",
+        );
+      }
 
-      // 4️⃣ Validation logic
+      // Validation logic
       switch (scenario.expected) {
-
-        case 'success':
-
+        case "success":
           await loginPage.verifyLoginSuccess();
           break;
 
-        case 'locked':
-
+        case "locked":
           await loginPage.verifyErrorContains(
-            'Sorry, this user has been locked out.'
+            "Sorry, this user has been locked out.",
           );
           break;
 
-        case 'failure':
-          await loginPage.verifyVisualLayout();
-          await cartPage.verifyProduct(testData.productName);
-           await cartPage.clickCheckout();
-         
-           // 5️⃣ Checkout details (from env)
-           await  checkoutPage.enterUserDetails(
-             process.env.FIRST_NAME!,
-             process.env.LAST_NAME!,
-             process.env.POSTAL_CODE!
-           );
+        case "failure":
+          await loginPage.verifyProblemUserImages();
+
+          await performCheckoutFlow(
+            inventoryPage,
+            cartPage,
+            checkoutPage,
+          );
+
           break;
 
+        case "error":
+          await performCheckoutFlow(
+            inventoryPage,
+            cartPage,
+            checkoutPage,
+          );
+
+          await completeOrderFlow(checkoutPage);
+
+          break;
 
         default:
-
           throw new Error(
-            `Unknown expected type: ${scenario.expected}`
+            `Unknown expected type: ${scenario.expected}`,
           );
       }
 
-      // 5️⃣ Visual validation
-// // Standard User -> capture baseline
-if (scenario.name === 'Standard User') {
+      // Standard User -> capture baseline
+      if (scenario.name === "Standard User") {
+        await page.waitForLoadState("networkidle");
 
-  await page.waitForLoadState('networkidle');
+        await page.screenshot({
+          path: "tests/UI/baseline/baseline.png",
+          fullPage: true,
+        });
+      }
 
-  await page.screenshot({
-    path: 'tests/UI/baseline/baseline.png',
-    fullPage: true
-  });
-}
+      // Visual User -> compare
+      if (scenario.name === "Visual User") {
+        await page.waitForLoadState("networkidle");
 
+        await page.screenshot({
+          path: "tests/UI/ACTUAL/visual_check.png",
+          fullPage: true,
+        });
 
-// Visual User -> compare
-if (scenario.name === 'Visual User') {
+        const mismatchedPixels = compareImages(
+          "tests/UI/baseline/baseline.png",
+          "tests/UI/ACTUAL/visual_check.png",
+          "tests/UI/ACTUAL/diff.png",
+        );
 
-  await page.waitForLoadState('networkidle');
+        if (mismatchedPixels > 0) {
+          // Attach diff image to Playwright report
+          await testInfo.attach("Visual Diff", {
+            path: "tests/UI/ACTUAL/diff.png",
+            contentType: "image/png",
+          });
 
-  await page.screenshot({
-    path: 'tests/UI/baseline/visual_check.png',
-    fullPage: true
-  });
-
-  const mismatchedPixels = compareImages(
-    'tests/UI/baseline/baseline.png',
-    'tests/UI/ACTUAL/visual_check.png',
-    'tests/UI/ACTUAL/diff.png'
-  );
-  if (mismatchedPixels > 0) {
-
-  throw new Error(
-    `Visual User UI mismatch detected.
-     Different pixels found: ${mismatchedPixels}
-     Check diff.png for differences`
-  );
-}
-
-}
+          throw new Error(
+            `Visual User UI mismatch detected. Different pixels found: ${mismatchedPixels}`,
+          );
+        }
+      }
     });
-
   }
-  }
-);
+});

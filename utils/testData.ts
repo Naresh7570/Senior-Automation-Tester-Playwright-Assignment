@@ -1,46 +1,46 @@
 export const loginScenarios = [
   {
-    name: 'Standard User',
+    name: "Standard User",
     username: process.env.STANDARD_USER!,
     password: process.env.PASSWORD!,
-    expected: 'success',
+    expected: "success",
   },
   {
-    name: 'Locked User',
+    name: "Locked User",
     username: process.env.LOCKED_USER!,
     password: process.env.PASSWORD!,
-    expected: 'locked'
+    expected: "locked",
   },
   {
-    name: 'Problem User',
+    name: "Problem User",
     username: process.env.PROBLEM_USER!,
     password: process.env.PASSWORD!,
-    expected: 'failure',
-    behavior: 'problem'
+    expected: "failure",
+    behavior: "problem",
   },
   {
-    name: 'Performance Glitch User',
+    name: "Performance Glitch User",
     username: process.env.PERFORMANCE_USER!,
     password: process.env.PASSWORD!,
-    expected: 'success',
-    behavior: 'slow'
+    expected: "success",
+    behavior: "slow",
   },
   {
-    name: 'Error User',
+    name: "Error User",
     username: process.env.ERROR_USER!,
     password: process.env.PASSWORD!,
-    expected: 'success',
-    behavior: 'api-error'
+    expected: "error",
+    behavior: "error",
   },
   {
-    name: 'Visual User',
+    name: "Visual User",
     username: process.env.VISUAL_USER!,
     password: process.env.PASSWORD!,
-    expected: 'success',
-    behavior: 'visual-check'
-  }
+    expected: "success",
+    behavior: "visual-check",
+  },
 ];
 
 export const testData = {
-  productName: 'Sauce Labs Backpack'
+  productName: "Sauce Labs Backpack",
 };

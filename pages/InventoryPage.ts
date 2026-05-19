@@ -1,4 +1,4 @@
-import { Page, expect } from '@playwright/test';
+import { Page, expect } from "@playwright/test";
 
 export class InventoryPage {
   constructor(private page: Page) {}
@@ -6,13 +6,14 @@ export class InventoryPage {
   async addToCart(productName: string) {
     await this.page.locator(`text=${productName}`).first().waitFor();
 
-    await this.page.locator(`.inventory_item`)
+    await this.page
+      .locator(`.inventory_item`)
       .filter({ hasText: productName })
-      .locator('button')
+      .locator("button")
       .click();
   }
 
   async openCart() {
-    await this.page.click('.shopping_cart_link');
+    await this.page.click(".shopping_cart_link");
   }
 }

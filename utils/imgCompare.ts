@@ -1,22 +1,17 @@
-import fs from 'fs';
-import path from 'path';
-import { PNG } from 'pngjs';
+import fs from "fs";
+import path from "path";
+import { PNG } from "pngjs";
 
-const pixelmatch =
-  require('pixelmatch').default || require('pixelmatch');
+const pixelmatch = require("pixelmatch").default || require("pixelmatch");
 
 export function compareImages(
   baselinePath: string,
   actualPath: string,
-  diffPath: string
+  diffPath: string,
 ) {
-  const baseline = PNG.sync.read(
-    fs.readFileSync(baselinePath)
-  );
+  const baseline = PNG.sync.read(fs.readFileSync(baselinePath));
 
-  const actual = PNG.sync.read(
-    fs.readFileSync(actualPath)
-  );
+  const actual = PNG.sync.read(fs.readFileSync(actualPath));
 
   const { width: bw, height: bh } = baseline;
   const { width: aw, height: ah } = actual;
@@ -25,13 +20,13 @@ export function compareImages(
     throw new Error(
       `Image dimensions do not match.
        Baseline: ${bw}x${bh},
-       Actual: ${aw}x${ah}`
+       Actual: ${aw}x${ah}`,
     );
   }
 
   const diff = new PNG({
     width: bw,
-    height: bh
+    height: bh,
   });
 
   const mismatchedPixels = pixelmatch(
@@ -40,7 +35,7 @@ export function compareImages(
     diff.data,
     bw,
     bh,
-    { threshold: 0.1 }
+    { threshold: 0.1 },
   );
 
   // ✅ Ensure folder exists
@@ -50,10 +45,7 @@ export function compareImages(
     fs.mkdirSync(diffDir, { recursive: true });
   }
 
-  fs.writeFileSync(
-    diffPath,
-    PNG.sync.write(diff)
-  );
+  fs.writeFileSync(diffPath, PNG.sync.write(diff));
 
   return mismatchedPixels;
 }

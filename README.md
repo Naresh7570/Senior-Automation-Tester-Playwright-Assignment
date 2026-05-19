@@ -235,7 +235,7 @@ Current coverage:
 Example:
 
 ```ts
-const response = await request.get('/books');
+const response = await request.get("/books");
 
 expect(response.status()).toBe(200);
 ```
@@ -407,9 +407,7 @@ Example CI steps:
 Use correct import:
 
 ```ts
-const pixelmatch =
-  require('pixelmatch').default ||
-  require('pixelmatch');
+const pixelmatch = require("pixelmatch").default || require("pixelmatch");
 ```
 
 ---
@@ -420,7 +418,7 @@ Ensure folder exists:
 
 ```ts
 fs.mkdirSync(path.dirname(diffPath), {
-  recursive: true
+  recursive: true,
 });
 ```
 
