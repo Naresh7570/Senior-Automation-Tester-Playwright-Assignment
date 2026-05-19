@@ -16,8 +16,8 @@ export default defineConfig({
   use: {
     baseURL: process.env.BASE_URL,
 
-    headless: false,
-    viewport: {
+  headless: process.env.CI ? true : false,
+  viewport: {
     width: 1440,
     height: 900,
   },
