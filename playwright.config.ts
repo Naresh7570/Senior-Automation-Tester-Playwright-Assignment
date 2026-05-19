@@ -14,16 +14,19 @@ export default defineConfig({
   reporter: [["html"], ["allure-playwright"]],
 
   use: {
-    headless: true,
+    baseURL: process.env.BASE_URL,
 
+    headless: false,
     viewport: {
-      width: 1440,
-      height: 900,
-    },
+    width: 1440,
+    height: 900,
+  },
 
     launchOptions: {
       slowMo: 500,
+      args: ["--start-maximized"],
     },
+
     screenshot: "only-on-failure",
 
     video: "retain-on-failure",
