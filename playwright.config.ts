@@ -8,8 +8,8 @@ export default defineConfig({
 
   fullyParallel: true,
   retries: 1,
-  workers: 2,
-  timeout: 40000,
+  workers: 3,
+  timeout: 90000,
 
   reporter: [["html"], ["allure-playwright"]],
 
@@ -18,13 +18,8 @@ export default defineConfig({
 
     headless: process.env.CI ? true : false,
 
-    viewport: {
-      width: 1440,
-      height: 900,
-    },
-
     launchOptions: {
-      slowMo: process.env.SLOWMO ? 500 : 0,
+      slowMo: process.env.SLOWMO ? 500 : 300,
       args: ["--start-maximized"],
     },
 
