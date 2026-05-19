@@ -56,3 +56,6 @@ desktop.ini
 # Optional package manager files
 .pnpm-store/
 .yarn/
+
+# Generated screenshots
+snapshots/actual/

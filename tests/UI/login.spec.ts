@@ -250,26 +250,27 @@ test.describe("Login Scenarios - SauceDemo Users", () => {
       if (scenario.name === "Standard User") {
         await page.waitForLoadState("networkidle");
 
-        await page.screenshot({
-          path: "tests/UI/baseline/baseline.png",
-          fullPage: true,
-        });
+        // Baseline capture
+await page.screenshot({
+  path: "snapshots/baseline/baseline.png",
+  fullPage: true,
+});
       }
 
       // Visual User -> compare
       if (scenario.name === "Visual User") {
         await page.waitForLoadState("networkidle");
-
-        await page.screenshot({
-          path: "tests/UI/ACTUAL/visual_check.png",
-          fullPage: true,
-        });
+// Visual capture
+await page.screenshot({
+  path: "snapshots/actual/visual_check.png",
+  fullPage: true,
+});
 
         const mismatchedPixels = compareImages(
-          "tests/UI/baseline/baseline.png",
-          "tests/UI/ACTUAL/visual_check.png",
-          "tests/UI/ACTUAL/diff.png",
-        );
+  "snapshots/baseline/baseline.png",
+  "snapshots/actual/visual_check.png",
+  "snapshots/actual/diff.png",
+);
 
         if (mismatchedPixels > 0) {
           // Attach diff image to Playwright report
